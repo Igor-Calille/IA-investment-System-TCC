@@ -14,13 +14,13 @@ Este projeto implementa um sistema de sugestão de investimentos utilizando mach
 
 ## Estrutura de Microserviços
 
-1. **User Service**
-2. **Portfolio Service**
-3. **News Fetcher Service**
-4. **Sentiment Analysis Service**
-5. **ML Prediction Service**
-6. **Stock Fetcher Service**
-7. **API Gateway**
+1. **API Gateway**
+2. **User Service**
+3. **Portfolio Service**
+4. **News Fetcher Service**
+5. **Sentiment Analysis Service**
+6. **ML Prediction Service**
+7. **Stock Fetcher Service**
 
 ### Requisitos Funcionais
 
