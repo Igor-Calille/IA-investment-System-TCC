@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - stock-fetcher-service
+
+  stock-fetcher-service:
+    build:
+      context: ./stock-fetcher-service
+    container_name: stock-fetcher-service
+    ports:
+      - "8001:8000"
