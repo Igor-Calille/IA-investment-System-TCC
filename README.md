@@ -10,7 +10,7 @@ curl.exe -X GET "http://localhost:8000/stocks/?symbol=AAPL&start_date=2000-01-01
 
 Este projeto implementa um sistema de sugestão de investimentos utilizando machine learning e análise de sentimento em notícias. A arquitetura é baseada em microserviços, desenvolvida em Python com FastAPI e PostgreSQL.
 
-![Diagrama de Microservicos](images/Diagrama Microservicos.png)
+![Diagrama de Microservicos](images/DiagramaMicroservicos.jpg)
 
 ## Estrutura de Microserviços
 
