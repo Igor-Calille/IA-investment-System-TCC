@@ -1,65 +1,58 @@
-from fastapi import FastAPI, HTTPException, Query
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException, Depends, Query
+from sqlalchemy.orm import Session
 from typing import List, Optional
-import yfinance as yf
-from datetime import datetime
-import pytz
+from apscheduler.schedulers.background import BackgroundScheduler
+from app.data import crud, models, schemas, database
+from app.services import add_company as add_company_service, update_daily_stock_data as update_daily_stock_data_service
 
 app = FastAPI()
 
-class StockHistory(BaseModel):
-    date: str
-    open: float
-    high: float
-    low: float
-    close: float
-    volume: int
 
-@app.get("/stock-fetcher-service/stock-historicaldata/", response_model=List[StockHistory])
-def read_stock_historicaldata(symbol: str, start_date: Optional[str] = Query(None)):
+# Drop existing tables
+#models.Base.metadata.drop_all(bind=database.engine)
+
+# Create tables again with updated schema
+models.Base.metadata.create_all(bind=database.engine)
+
+
+# Agendador para executar tarefas diárias
+scheduler = BackgroundScheduler()
+scheduler.start()
+
+# Função para adicionar uma nova empresa
+@app.post("/stock-fetcher-service/add_company/", response_model=schemas.Company)
+def add_company(company_symbol: str = Query(...), db: Session = Depends(database.get_db)):
     try:
-        stock = yf.Ticker(symbol)
-        hist = stock.history(period="max")
+        db_company = add_company_service(db, company_symbol)
+        return db_company
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
-        if start_date:
-            # Converter start_date para a time zone correta
-            start_date_obj = datetime.strptime(start_date, '%Y-%m-%d')
-            start_date_obj = pytz.timezone("America/New_York").localize(start_date_obj)
-            hist = hist[hist.index >= start_date_obj]
+# Função para obter dados de ações para gráficos dinâmicos
+@app.get("/stock-fetcher-service/stock-data/", response_model=List[schemas.StockData])
+def get_stock_data(company_id: int, start_date: Optional[str] = Query(None), end_date: Optional[str] = Query(None), db: Session = Depends(database.get_db)):
+    query = db.query(models.StockData).filter(models.StockData.company_id == company_id)
+    if start_date:
+        query = query.filter(models.StockData.date >= start_date)
+    if end_date:
+        query = query.filter(models.StockData.date <= end_date)
+    return query.all()
 
-        data = [
-            {
-                "date": str(date),
-                "open": row["Open"],
-                "high": row["High"],
-                "low": row["Low"],
-                "close": row["Close"],
-                "volume": row["Volume"]
-            }
-            for date, row in hist.iterrows()
-        ]
-        return data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    
-@app.get("/stock-fetcher-service/stock-lastdaydata/", response_model=StockHistory)
-def read_stock_lastdaydata(symbol: str):
-    try:
-        stock = yf.Ticker(symbol)
-        hist = stock.history(period="1d")
-        if not hist.empty:
-            last_row = hist.iloc[-1]
-            data = {
-                "date": str(last_row.name),
-                "open": last_row["Open"],
-                "high": last_row["High"],
-                "low": last_row["Low"],
-                "close": last_row["Close"],
-                "volume": last_row["Volume"]
-            }
-            return data
-        else:
-            raise HTTPException(status_code=404, detail="No data available for the symbol or for the last day")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-        
+# Função para enviar dados das ações para treinamento de machine learning
+@app.get("/stock-fetcher-service/ml-stock-data/", response_model=List[schemas.StockData])
+def get_ml_stock_data(company_id: int, db: Session = Depends(database.get_db)):
+    return crud.get_stock_data(db, company_id)
+
+# Agendamento das atualizações diárias
+
+# Para o mercado brasileiro (B3)
+@scheduler.scheduled_job('cron', hour=18, minute=0, timezone='America/Sao_Paulo')
+def update_brazilian_market_data():
+    db = next(database.get_db())
+    update_daily_stock_data_service(db)
+
+# Para o mercado americano (NYSE)
+@scheduler.scheduled_job('cron', hour=17, minute=0, timezone='America/New_York')
+def update_american_market_data():
+    db = next(database.get_db())
+    update_daily_stock_data_service(db)

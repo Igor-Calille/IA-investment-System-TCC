@@ -113,11 +113,17 @@ Para este projeto, que envolve o armazenamento de dados históricos de ações d
 
 ## Extra
 
+
+arrumar id company
 ```bash
 docker-compose up --build
-cd frontend
-python -m http.server 8080
-curl.exe -X GET "http://localhost:8000/stocks/?symbol=AAPL&start_date=2000-01-01"
+
+curl.exe -X POST "http://localhost:8000/stock-fetcher-service/add_company/?company_symbol=AAPL"
+
+curl.exe -X GET "http://localhost:8000/stock-fetcher-service/stock-data/?company_id=1&start_date=2023-01-01&end_date=2023-12-31"
+
+curl.exe -X GET "http://localhost:8000/stock-fetcher-service/ml-stock-data/?company_id=1"
+
 ```
 
 

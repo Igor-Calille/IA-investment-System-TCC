@@ -5,3 +5,5 @@ pytz
 sqlalchemy
 psycopg2-binary
 alembic
+apscheduler
+httpx

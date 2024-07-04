@@ -1,18 +1,29 @@
 version: '3.8'
 
 services:
+  stock-fetcher-service:
+    build:
+      context: ./stock-fetcher-service
+    ports:
+      - "8001:8000"
+    environment:
+      - SQLALCHEMY_DATABASE_URL=postgresql://user:password@stock-db/dbname
+    depends_on:
+      - stock-db
+
   api-gateway:
     build:
       context: ./api-gateway
-    container_name: api-gateway
     ports:
       - "8000:8000"
     depends_on:
       - stock-fetcher-service
 
-  stock-fetcher-service:
-    build:
-      context: ./stock-fetcher-service
-    container_name: stock-fetcher-service
+  stock-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dbname
     ports:
-      - "8001:8000"
+      - "5432:5432"
