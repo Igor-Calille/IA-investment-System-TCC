@@ -22,8 +22,7 @@ Este projeto implementa um sistema de sugestão de investimentos utilizando mach
   - [Sentiment Analysis Service](#sentiment-analysis-service)
   - [ML Prediction Service](#ml-prediction-service)
   - [Stock Fetcher Service](#stock-fetcher-service)
-- [Justificativa da Escolha do PostgreSQL](#justificativa-da-escolha-do-postgresql)
-- [Como Rodar o Projeto](#como-rodar-o-projeto)
+- [Extra](#Extra)
 
 ## Estrutura de Microserviços
 
@@ -82,7 +81,7 @@ Este projeto implementa um sistema de sugestão de investimentos utilizando mach
   - `POST /stocks`: Adicionar novas informações sobre ações.
 #### **Banco de Dados**: PostgreSQL
 
-## Justificativa da Escolha do PostgreSQL
+##### Justificativa da Escolha do PostgreSQL
 
 Para este projeto, que envolve o armazenamento de dados históricos de ações de várias empresas, a escolha do banco de dados é crucial. Optamos por PostgreSQL em vez de uma solução NoSQL, levando em consideração os seguintes requisitos específicos do nosso projeto:
 
