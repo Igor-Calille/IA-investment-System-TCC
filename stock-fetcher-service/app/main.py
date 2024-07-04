@@ -15,8 +15,8 @@ class StockHistory(BaseModel):
     close: float
     volume: int
 
-@app.get("/stocks/", response_model=List[StockHistory])
-def read_stocks(symbol: str, start_date: Optional[str] = Query(None)):
+@app.get("/stock-fetcher-service/stock-historicaldata/", response_model=List[StockHistory])
+def read_stock_historicaldata(symbol: str, start_date: Optional[str] = Query(None)):
     try:
         stock = yf.Ticker(symbol)
         hist = stock.history(period="max")
@@ -41,3 +41,25 @@ def read_stocks(symbol: str, start_date: Optional[str] = Query(None)):
         return data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get("/stock-fetcher-service/stock-lastdaydata/", response_model=StockHistory)
+def read_stock_lastdaydata(symbol: str):
+    try:
+        stock = yf.Ticker(symbol)
+        hist = stock.history(period="1d")
+        if not hist.empty:
+            last_row = hist.iloc[-1]
+            data = {
+                "date": str(last_row.name),
+                "open": last_row["Open"],
+                "high": last_row["High"],
+                "low": last_row["Low"],
+                "close": last_row["Close"],
+                "volume": last_row["Volume"]
+            }
+            return data
+        else:
+            raise HTTPException(status_code=404, detail="No data available for the symbol or for the last day")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+        

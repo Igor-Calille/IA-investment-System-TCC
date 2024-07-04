@@ -19,10 +19,18 @@ app.add_middleware(
 
 STOCK_FETCHER_URL = "http://stock-fetcher-service:8000"
 
-@app.get("/stocks/")
-async def get_stocks(symbol: str, start_date: Optional[str] = Query(None)):
+@app.get("/stock-fetcher-service/stock-historicaldata/")
+async def get_stock_historicaldata(symbol: str, start_date: Optional[str] = Query(None)):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{STOCK_FETCHER_URL}/stocks/?symbol={symbol}&start_date={start_date}")
+        response = await client.get(f"{STOCK_FETCHER_URL}/stock-fetcher-service/stock-historicaldata/?symbol={symbol}&start_date={start_date}")
+        if response.status_code == 200:
+            return response.json()
+        raise HTTPException(status_code=response.status_code, detail=response.text)
+
+@app.get("/stock-fetcher-service/stock-lastdaydata/")
+async def get_stock_lastdaydata(symbol: str):
+    async with httpx.AsyncClient() as client:
+        response  = await client.get(f"{STOCK_FETCHER_URL}/stock-fetcher-service/stock-lastdaydata/?symbol={symbol}")
         if response.status_code == 200:
             return response.json()
         raise HTTPException(status_code=response.status_code, detail=response.text)

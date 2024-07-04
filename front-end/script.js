@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const fetchDataAndRenderChart = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/stocks/?symbol=${stockSymbol}&start_date=2014-01-01`);
+            const response = await fetch(`http://localhost:8000/stock-fetcher-service/stock-historicaldata/?symbol=${stockSymbol}&start_date=2014-01-01`);
             const data = await response.json();
 
             console.log('Dados recebidos:', data);  // Adicione este log para verificar os dados recebidos
