@@ -22,7 +22,7 @@ def read_stock_historicaldata(symbol: str, start_date: Optional[str] = Query(Non
         hist = stock.history(period="max")
 
         if start_date:
-            # Convert start_date to the same timezone as the historical data
+            # Converter start_date para a time zone correta
             start_date_obj = datetime.strptime(start_date, '%Y-%m-%d')
             start_date_obj = pytz.timezone("America/New_York").localize(start_date_obj)
             hist = hist[hist.index >= start_date_obj]

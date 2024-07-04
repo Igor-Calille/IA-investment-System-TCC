@@ -17,6 +17,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# Serviço stock-fetcher-service
 STOCK_FETCHER_URL = "http://stock-fetcher-service:8000"
 
 @app.get("/stock-fetcher-service/stock-historicaldata/")
