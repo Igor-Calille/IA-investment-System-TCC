@@ -34,54 +34,54 @@ Este projeto implementa um sistema de sugestão de investimentos utilizando mach
 6. **ML Prediction Service**
 7. **Stock Fetcher Service**
 
-### API Gateway
-#### **Descrição**: Centraliza as requisições dos clientes e distribui para os microserviços.
-#### **Endpoints**: Todos os endpoints dos microserviços.
+## API Gateway
+### **Descrição**: Centraliza as requisições dos clientes e distribui para os microserviços.
+### **Endpoints**: Todos os endpoints dos microserviços.
 
-### User Service
-#### **Descrição**: Gerencia as informações dos usuários e o login.
-#### **Endpoints Iniciais**:
+## User Service
+### **Descrição**: Gerencia as informações dos usuários e o login.
+### **Endpoints Iniciais**:
   - `POST /register`: Registrar um novo usuário.
   - `POST /login`: Autenticar um usuário.
   - `GET /profile`: Obter informações do perfil do usuário.
-#### **Banco de Dados**: PostgreSQL
+### **Banco de Dados**: PostgreSQL
 
-### Portfolio Service
-#### **Descrição**: Armazena e gerencia informações sobre as ações do cliente.
-#### **Endpoints Iniciais**:
+## Portfolio Service
+### **Descrição**: Armazena e gerencia informações sobre as ações do cliente.
+### **Endpoints Iniciais**:
   - `POST /portfolio`: Criar um novo portfólio.
   - `GET /portfolio`: Obter o portfólio do usuário.
   - `PUT /portfolio`: Atualizar o portfólio do usuário.
-#### **Banco de Dados**: PostgreSQL
+### **Banco de Dados**: PostgreSQL
 
-### News Fetcher Service
-#### **Descrição**: Centraliza a obtenção de dados por API (notícias e ações).
-#### **Endpoints Iniciais**:
+## News Fetcher Service
+### **Descrição**: Centraliza a obtenção de dados por API (notícias e ações).
+### **Endpoints Iniciais**:
   - `GET /news`: Obter as últimas notícias.
-#### **Banco de Dados**: SQL ou NoSQL
+### **Banco de Dados**: SQL ou NoSQL
 
-### Sentiment Analysis Service
-#### **Descrição**: Análise de sentimento em notícias utilizando deep learning.
-#### **Endpoints Iniciais**:
+## Sentiment Analysis Service
+### **Descrição**: Análise de sentimento em notícias utilizando deep learning.
+### **Endpoints Iniciais**:
   - `POST /analyze`: Analisar o sentimento de uma notícia.
-#### **Banco de Dados**: SQL ou NoSQL
-#### **Tecnologias**: TensorFlow/PyTorch
+### **Banco de Dados**: SQL ou NoSQL
+### **Tecnologias**: TensorFlow/PyTorch
 
-### ML Prediction Service
-#### **Descrição**: Previsão de ações utilizando machine learning.
-#### **Endpoints Iniciais**:
+## ML Prediction Service
+### **Descrição**: Previsão de ações utilizando machine learning.
+### **Endpoints Iniciais**:
   - `POST /predict`: Obter previsão de ações baseadas em notícias.
-#### **Banco de Dados**: PostgreSQL
-#### **Tecnologias**: scikit-learn
+### **Banco de Dados**: PostgreSQL
+### **Tecnologias**: scikit-learn
 
-### Stock Fetcher Service
-#### **Descrição**: Obtém e gerencia dados de ações.
-#### **Endpoints Iniciais**:
+## Stock Fetcher Service
+### **Descrição**: Obtém e gerencia dados de ações.
+### **Endpoints Iniciais**:
   - `GET /stocks`: Obter informações sobre ações.
   - `POST /stocks`: Adicionar novas informações sobre ações.
-#### **Banco de Dados**: PostgreSQL
+### **Banco de Dados**: PostgreSQL
 
-##### Justificativa da Escolha do PostgreSQL
+#### Justificativa da Escolha do PostgreSQL
 
 Para este projeto, que envolve o armazenamento de dados históricos de ações de várias empresas, a escolha do banco de dados é crucial. Optamos por PostgreSQL em vez de uma solução NoSQL, levando em consideração os seguintes requisitos específicos do nosso projeto:
 
