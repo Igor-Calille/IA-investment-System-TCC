@@ -41,57 +41,66 @@ Este projeto implementa um sistema de sugestão de investimentos utilizando mach
 ## User Service
 ### **Descrição**: Gerencia as informações dos usuários e o login.
 ### **Endpoints Iniciais**:
-  - `POST /register`: Registrar um novo usuário.
-  - `POST /login`: Autenticar um usuário.
-  - `GET /profile`: Obter informações do perfil do usuário.
 ### **Banco de Dados**: PostgreSQL
+### **Tecnologias**:
+
+**Requisitos do Microserviço:**
 
 ## Portfolio Service
 ### **Descrição**: Armazena e gerencia informações sobre as ações do cliente.
 ### **Endpoints Iniciais**:
-  - `POST /portfolio`: Criar um novo portfólio.
-  - `GET /portfolio`: Obter o portfólio do usuário.
-  - `PUT /portfolio`: Atualizar o portfólio do usuário.
 ### **Banco de Dados**: PostgreSQL
+### **Tecnologias**:
+
+**Requisitos do Microserviço:**
 
 ## News Fetcher Service
 ### **Descrição**: Centraliza a obtenção de dados por API (notícias e ações).
 ### **Endpoints Iniciais**:
-  - `GET /news`: Obter as últimas notícias.
 ### **Banco de Dados**: SQL ou NoSQL
+### **Tecnologias**:
+
+**Requisitos do Microserviço:**
 
 ## Sentiment Analysis Service
 ### **Descrição**: Análise de sentimento em notícias utilizando deep learning.
 ### **Endpoints Iniciais**:
-  - `POST /analyze`: Analisar o sentimento de uma notícia.
+  - `GET sentiment-analysis-service/analyze/`: Obter a análise de sentimento das notícia da empresa requisitada.
 ### **Banco de Dados**: SQL ou NoSQL
-### **Tecnologias**: TensorFlow/PyTorch
+### **Tecnologias**: Python e PyTorch
+
+**Requisitos do Microserviço:**
 
 ## ML Prediction Service
 ### **Descrição**: Previsão de ações utilizando machine learning.
 ### **Endpoints Iniciais**:
-  - `POST /predict`: Obter previsão de ações baseadas em notícias.
+  - `GET /ml-prediction-service/predict/`: Obter previsão de ações sobre a empresa requisitada.
 ### **Banco de Dados**: PostgreSQL
-### **Tecnologias**: scikit-learn
+### **Tecnologias**: Python, C++ e scikit-learn
+
+**Requisitos do Microserviço:**
+1. **Treinar diariamente um modelo de Machine Learning:**
+2. **Fornecer previsão diarias:**
 
 ## Stock Fetcher Service
 ### **Descrição**: Obtém e gerencia dados de ações.
 ### **Endpoints Iniciais**:
-  - `GET /stocks`: Obter informações sobre ações.
-  - `POST /stocks`: Adicionar novas informações sobre ações.
+  - `POST /stock-fetcher-service/add_company/`: Adicionar uma nova empresa no Banco de Dados.
+  - `GET /stock-fetcher-service/stock-data/`: Obter dados de ações para gráficos dinâmicos.
+  - `GET /stock-fetcher-service/ml-stock-data/`: Enviar dados das ações para treinamento de machine learning
 ### **Banco de Dados**: PostgreSQL
+### **Tecnologias**: Python
 
-#### Justificativa da Escolha do PostgreSQL
-
-Para este projeto, que envolve o armazenamento de dados históricos de ações de várias empresas, a escolha do banco de dados é crucial. Optamos por PostgreSQL em vez de uma solução NoSQL, levando em consideração os seguintes requisitos específicos do nosso projeto:
-
-**Requisitos do Projeto:**
+**Requisitos do Microserviço:**
 1. **Armazenamento de Dados Históricos:** Precisamos armazenar dados como data, abertura, fechamento, mínima, máxima e volume para várias empresas, com cada tabela armazenando informações individuais.
 2. **Desempenho Rápido de Leitura:** Necessitamos de leituras rápidas entre datas específicas para alimentar gráficos dinâmicos em um site web.
 3. **Treinamento de Modelos de Machine Learning:** O banco de dados será acessado diariamente para treinar modelos de machine learning, requerendo consistência e desempenho confiáveis.
 4. **Escalabilidade Futura:** Pretendemos escalar para incluir mais empresas e potencialmente adicionar novas métricas no futuro.
 
-**Por que PostgreSQL?**
+#### Justificativa da Escolha do PostgreSQL
+
+Para este projeto, que envolve o armazenamento de dados históricos de ações de várias empresas, a escolha do banco de dados é crucial. Optamos por PostgreSQL em vez de uma solução NoSQL, levando em consideração os seguintes requisitos não funcionais do nosso projeto:
+
 
 1. **Desempenho Rápido de Leitura:**
    - PostgreSQL oferece suporte avançado a índices, o que nos permite criar índices eficientes em campos de data. Isso resulta em consultas rápidas, essencial para gerar gráficos dinâmicos que mostram o desempenho das ações ao longo do tempo.
