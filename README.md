@@ -1,6 +1,6 @@
 # Sistema de Sugestão de Investimentos
 
-Este projeto implementa um sistema de sugestão de investimentos utilizando machine learning e análise de sentimento em notícias. A arquitetura é baseada em microserviços, desenvolvida em Python com FastAPI e PostgreSQL.
+O objetivo principal do projeto é auxiliar os investidores com uma ferramenta que utilize aprendizado de máquina e processamento de linguagem natural (NLP) para criar previsões precisas de preços e tendências sobre o mercado de ações.
 
 ![Diagrama de Microserviços](images/DiagramaMicroservicos.jpg)
 
