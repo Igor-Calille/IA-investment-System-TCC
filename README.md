@@ -65,8 +65,13 @@ Armazena e gerencia informações sobre as ações do cliente.
 ### **Descrição**
 Centraliza a obtenção de dados por API (notícias e ações).
 
+### **Endpoints Iniciais**
+- `GET /news-fetcher-service/news-data/?company_symbol={symbol}`: Obter notícias do fornecedor de API 
+- `GET /news-fetcher-service/sentiment-analysis-data/?company_id={ID}`: Enviar dados das noticias para treinamento do modelo de análise de sentimento.
+- `GET /news-fetcher-service/relevant-news/?company_symbol={symbol}`: Enviar dados das noticias para a apresentação de noticias relevantes sobre a empresa no front-end.
+
 ### **Banco de Dados**
-SQL ou NoSQL
+SQL
 
 ### **Tecnologias**
 Python, FastAPI
@@ -82,8 +87,26 @@ Análise de sentimento em notícias utilizando deep learning.
 ### **Endpoints Iniciais**
 - `GET /sentiment-analysis-service/analyze/`: Obter a análise de sentimento das notícias da empresa requisitada.
 
+- `GET /sentiment-analysis-service/api/acoes/{simbolo}/historico`
+Descrição: Retorna os dados históricos de preços de uma ação específica.
+
+- `GET /sentiment-analysis-service/api/acoes/{simbolo}/previsao`
+Descrição: Retorna as previsões de preços futuros para uma ação específica.
+
+- `GET /sentiment-analysis-service/api/acoes/{simbolo}/noticias`
+Descrição: Retorna as notícias mais recentes relacionadas a uma ação específica.
+
+- `GET /sentiment-analysis-service/api/acoes/{simbolo}`
+Descrição: Retorna detalhes básicos sobre a ação, como nome da empresa e setor.
+
+- `GET /sentiment-analysis-service/api/acoes`
+Descrição: Retorna uma lista de todas as ações disponíveis
+
+- `GET /sentiment-analysis-service/api/acoes/{simbolo}/explicacao-variacao`
+Descrição: Explicacao da variacao da acao
+
 ### **Banco de Dados**
-SQL ou NoSQL
+SQL
 
 ### **Tecnologias**
 Python, PyTorch, FastAPI
@@ -98,6 +121,7 @@ Previsão de ações utilizando machine learning.
 
 ### **Endpoints Iniciais**
 - `GET /ml-prediction-service/predict/`: Obter previsão de ações sobre a empresa requisitada.
+- `POST /ml-prediction-service/train_model/`: trigger para treinar diarimente o modelo de machine learning  
 
 ### **Banco de Dados**
 PostgreSQL
@@ -114,9 +138,9 @@ Python, C++, scikit-learn, FastAPI
 Obtém e gerencia dados de ações.
 
 ### **Endpoints Iniciais**
-- `POST /stock-fetcher-service/add_company/`: Adicionar uma nova empresa no banco de dados.
-- `GET /stock-fetcher-service/stock-data/`: Obter dados de ações para gráficos dinâmicos.
-- `GET /stock-fetcher-service/ml-stock-data/`: Enviar dados das ações para treinamento de machine learning.
+- `POST /stock-fetcher-service/add_company/?company_symbol={symbol}`: Adicionar uma nova empresa no banco de dados.
+- `GET /stock-fetcher-service/stock-data/?company_id={ID}&start_date={start_date}&end_date={end_date}`: Obter dados de ações para gráficos dinâmicos.
+- `GET /stock-fetcher-service/ml-stock-data/?company_id={ID}`: Enviar dados das ações para treinamento de machine learning.
 
 ### **Banco de Dados**
 PostgreSQL
