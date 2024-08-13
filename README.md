@@ -1,6 +1,6 @@
 # Sistema de Sugestão de Investimentos
 
-Este projeto implementa um sistema de sugestão de investimentos utilizando machine learning e análise de sentimento em notícias. A arquitetura é baseada em microserviços, desenvolvida em Python com FastAPI e PostgreSQL.
+O objetivo principal do projeto é auxiliar os investidores com uma ferramenta que utilize aprendizado de máquina e processamento de linguagem natural (NLP) para criar previsões precisas de preços e tendências sobre o mercado de ações.
 
 ![Diagrama de Microserviços](images/DiagramaMicroservicos.jpg)
 
@@ -37,29 +37,64 @@ Todos os endpoints dos microserviços.
 ### **Descrição**
 Gerencia as informações dos usuários e o login.
 
-### **Banco de Dados**
+### Endpoints iniciais
+`POST /api/user/new`
+Descrição: Cria um usuário
 
+`GET /api/user/{user_id}`
+Descrição: Retorna um usuário
+
+`PATCH /api/user/{user_id}`
+Descrição: Edita um usuário
+
+
+
+### **Banco de Dados**
+  PostgreSQL
 
 ### **Tecnologias**
-
+  Java, Spring Boot
 
 ### **Requisitos do Microserviço**
 - Cadastro e autenticação de usuários.
 - Gerenciamento de sessões.
+- O sistema deve permitir que o usuário crie e gerencie sua conta
+- O sistema não deve permitir criar um usuário com um CPF já cadastrado
 
 ## Portfolio Service
 ### **Descrição**
 Armazena e gerencia informações sobre as ações do cliente.
 
-### **Banco de Dados**
+### **Endpoints iniciais**
 
+`POST /api/portfolio/{user_id}/new`
+Descrição: Cria um novo portfolio
+
+`GET /api/portfolio/{user_id}/{portfolio_id}`
+Descrição: Retorna o portfolio do usuário
+
+`PATCH /api/portfolio/{user_id}/{portfolio_id}`
+Descrição: Edita o portfolio
+
+`POST /api/portfolio/{user_id}/{portfolio_id}/{company_tag}`
+Descrição: Adiciona empresa no portfolio
+
+`DELETE /api/portfolio/{user_id}/{portfolio_id}/{company_tag}`
+Descrição: Remover empresa do portfolio
+
+### **Banco de Dados**
+PostgreSQL
 
 ### **Tecnologias**
-
+Java, Spring Boot
 
 ### **Requisitos do Microserviço**
 - Armazenar detalhes das ações possuídas pelos clientes.
 - Realizar cálculos de rentabilidade.
+- O sistema deve permitir que o usuário crie e gerencie seu portfolio
+- O sistema deve permitir que o usuário adicione e remova empresas em seu portfolio
+- O sistema não deve permitir que o usuário de um portfolio com um nome repetido
+- O sistema não deve permitir que o usuário adicione uma empresa já inserida em seu portfolio
 
 ## News Fetcher Service
 ### **Descrição**
