@@ -76,10 +76,10 @@ Descrição: Retorna o portfolio do usuário
 `PATCH /api/portfolio/{user_id}/{portfolio_id}`
 Descrição: Edita o portfolio
 
-`POST /api/portfolio/{user_id}/{portfolio_id}/{company_tag}`
+`POST /api/portfolio/{user_id}/{portfolio_id}/?company_symbol={symbol}`
 Descrição: Adiciona empresa no portfolio
 
-`DELETE /api/portfolio/{user_id}/{portfolio_id}/{company_tag}`
+`DELETE /api/portfolio/{user_id}/{portfolio_id}/?company_symbol={symbol}`
 Descrição: Remover empresa do portfolio
 
 ### **Banco de Dados**
@@ -93,7 +93,7 @@ Java, Spring Boot
 - Realizar cálculos de rentabilidade.
 - O sistema deve permitir que o usuário crie e gerencie seu portfolio
 - O sistema deve permitir que o usuário adicione e remova empresas em seu portfolio
-- O sistema não deve permitir que o usuário de um portfolio com um nome repetido
+- O sistema não deve permitir que o usuário crie um portfolio com um nome repetido
 - O sistema não deve permitir que o usuário adicione uma empresa já inserida em seu portfolio
 
 ## News Fetcher Service
