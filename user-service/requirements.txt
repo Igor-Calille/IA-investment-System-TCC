@@ -1,0 +1,13 @@
+POST /api/user/new
+Descrição: Cria um usuário
+
+GET /api/user/{user_id}
+Descrição: Retorna um usuário
+
+PATCH /api/user/{user_id}
+Descrição: Edita um usuário
+
+
+Requisitos Funcionais
+1. O sistema deve permitir que o usuário crie e gerencie sua conta
+2. O sistema não deve permitir criar um usuário com um CPF já cadastrado
