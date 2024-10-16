@@ -44,3 +44,9 @@ async def get_ml_stock_data(company_id: int):
         if response.status_code == 200:
             return response.json()
         raise HTTPException(status_code=response.status_code, detail=response.text)
+    
+
+
+
+
+@app.get("/news-fetcher-service/")

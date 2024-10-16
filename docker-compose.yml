@@ -11,6 +11,13 @@ services:
     depends_on:
       - stock-db
 
+  news-fetcher-service:
+    build:
+      context: ./news-fetcher-service
+    ports:
+      - "8002:8000"
+      
+
   api-gateway:
     build:
       context: ./api-gateway
@@ -18,6 +25,7 @@ services:
       - "8000:8000"
     depends_on:
       - stock-fetcher-service
+      - news-fetcher-service
 
   stock-db:
     image: postgres:13
