@@ -30,18 +30,20 @@ def add_company(company_symbol: str = Query(...), db: Session = Depends(database
 
 # Função para obter dados de ações para gráficos dinâmicos
 @app.get("/stock-fetcher-service/stock-data/", response_model=List[schemas.StockData])
-def get_stock_data(company_id: int, start_date: Optional[str] = Query(None), end_date: Optional[str] = Query(None), db: Session = Depends(database.get_db)):
-    query = db.query(models.StockData).filter(models.StockData.company_id == company_id)
-    if start_date:
-        query = query.filter(models.StockData.date >= start_date)
-    if end_date:
-        query = query.filter(models.StockData.date <= end_date)
-    return query.all()
+def get_stock_data(symbol: str, start_date: Optional[str] = Query(None), end_date: Optional[str] = Query(None), db: Session = Depends(database.get_db)):
+    stock_data = crud.get_stock_data_by_symbol(db, symbol, start_date, end_date)
+    if not stock_data:
+        raise HTTPException(status_code=404, detail="Data not found")
+    return stock_data
 
 # Função para enviar dados das ações para treinamento de machine learning
 @app.get("/stock-fetcher-service/ml-stock-data/", response_model=List[schemas.StockData])
-def get_ml_stock_data(company_id: int, db: Session = Depends(database.get_db)):
-    return crud.get_stock_data(db, company_id)
+def get_ml_stock_data(symbol: str, db: Session = Depends(database.get_db)):
+    stock_data = crud.get_stock_data_by_symbol(db, symbol)
+    if not stock_data:
+        raise HTTPException(status_code=404, detail="Data not found")
+    return stock_data
+    
 
 # Agendamento das atualizações diárias
 

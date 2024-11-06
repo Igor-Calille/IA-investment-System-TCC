@@ -11,12 +11,12 @@ services:
     depends_on:
       - stock-db
 
-  news-fetcher-service:
+  ml-prediction-service:
     build:
-      context: ./news-fetcher-service
+      context: ./ml-prediction-service
     ports:
       - "8002:8000"
-      
+
 
   api-gateway:
     build:
@@ -25,7 +25,6 @@ services:
       - "8000:8000"
     depends_on:
       - stock-fetcher-service
-      - news-fetcher-service
 
   stock-db:
     image: postgres:13
@@ -35,3 +34,10 @@ services:
       POSTGRES_DB: dbname
     ports:
       - "5432:5432"
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true

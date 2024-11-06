@@ -29,8 +29,8 @@ async def add_company(company_symbol: str):
         raise HTTPException(status_code=response.status_code, detail=response.text)
 
 @app.get("/stock-fetcher-service/stock-data/", response_model=List[dict])
-async def get_stock_data(company_id: int, start_date: Optional[str] = Query(None), end_date: Optional[str] = Query(None)):
-    params = {"company_id": company_id, "start_date": start_date, "end_date": end_date}
+async def get_stock_data(symbol: str, start_date: Optional[str] = Query(None), end_date: Optional[str] = Query(None)):
+    params = {"symbol": symbol, "start_date": start_date, "end_date": end_date}
     async with httpx.AsyncClient() as client:
         response = await client.get(f"{STOCK_FETCHER_SERVICE_URL}/stock-fetcher-service/stock-data/", params=params)
         if response.status_code == 200:
@@ -38,15 +38,10 @@ async def get_stock_data(company_id: int, start_date: Optional[str] = Query(None
         raise HTTPException(status_code=response.status_code, detail=response.text)
 
 @app.get("/stock-fetcher-service/ml-stock-data/", response_model=List[dict])
-async def get_ml_stock_data(company_id: int):
+async def get_ml_stock_data(symbol: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{STOCK_FETCHER_SERVICE_URL}/stock-fetcher-service/ml-stock-data/", params={"company_id": company_id})
+        response = await client.get(f"{STOCK_FETCHER_SERVICE_URL}/stock-fetcher-service/ml-stock-data/", params={"symbol": symbol})
         if response.status_code == 200:
             return response.json()
         raise HTTPException(status_code=response.status_code, detail=response.text)
     
-
-
-
-
-@app.get("/news-fetcher-service/")

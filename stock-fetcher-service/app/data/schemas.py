@@ -14,6 +14,9 @@ class StockDataCreate(StockDataBase):
     pass
 
 class StockData(StockDataBase):
+
+    symbol:str
+
     class Config:
         orm_mode = True
 
