@@ -101,19 +101,14 @@ Java, Spring Boot
 Centraliza a obtenção de dados por API (notícias e ações).
 
 ### **Endpoints Iniciais**
-- `GET /news-fetcher-service/news-data/?company_symbol={symbol}`: Obter notícias do fornecedor de API 
-- `GET /news-fetcher-service/sentiment-analysis-data/?company_id={ID}`: Enviar dados das noticias para treinamento do modelo de análise de sentimento.
-- `GET /news-fetcher-service/relevant-news/?company_symbol={symbol}`: Enviar dados das noticias para a apresentação de noticias relevantes sobre a empresa no front-end.
-
-### **Banco de Dados**
-SQL
+- `GET /api/news/{company}/today`: Obter noticias de uma empresa no período de 24 horas
+- `GET /api/news/{company}?start={date}&end={date}`: Obter noticias de uma empresa em um período específico
 
 ### **Tecnologias**
-Python, FastAPI
+Python, Flask
 
 ### **Requisitos do Microserviço**
 - Conectar a APIs externas para obter notícias relevantes.
-- Armazenar notícias para análises futuras.
 
 ## Sentiment Analysis Service
 ### **Descrição**
