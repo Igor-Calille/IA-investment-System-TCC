@@ -1,4 +1,4 @@
-from newsapi_consumer import fetch_news
+from app.newsapi_consumer import fetch_news
 from datetime import datetime, timedelta
 from flask import Flask
 from flask import request
@@ -6,8 +6,13 @@ from flask import request
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return {"message": "Hello, World!"}
+
 @app.route("/api/news/<company>/today")
 def get_news_today(company):
+    print(request.query_string)
 
     if request.query_string:
         return "404 Not Found", 404
@@ -16,6 +21,8 @@ def get_news_today(company):
     start = today.date() - timedelta(days=1)
 
     noticias = fetch_news(start, today.date(), company)
+
+    print(noticias)
 
     for noticia in noticias:
         for item in noticia:

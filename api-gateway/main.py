@@ -30,8 +30,8 @@ async def add_company(company_symbol: str):
         raise HTTPException(status_code=response.status_code, detail=response.text)
 
 @app.get("/stock-fetcher-service/stock-data/", response_model=List[dict])
-async def get_stock_data(symbol: str, start_date: Optional[str] = Query(None), end_date: Optional[str] = Query(None)):
-    params = {"symbol": symbol, "start_date": start_date, "end_date": end_date}
+async def get_stock_data(company_symbol: str, start_date: Optional[str] = Query(None), end_date: Optional[str] = Query(None)):
+    params = {"symbol": company_symbol, "start_date": start_date, "end_date": end_date}
     async with httpx.AsyncClient() as client:
         response = await client.get(f"{STOCK_FETCHER_SERVICE_URL}/stock-fetcher-service/stock-data/", params=params)
         if response.status_code == 200:
@@ -39,9 +39,9 @@ async def get_stock_data(symbol: str, start_date: Optional[str] = Query(None), e
         raise HTTPException(status_code=response.status_code, detail=response.text)
 
 @app.get("/stock-fetcher-service/ml-stock-data/", response_model=List[dict])
-async def get_ml_stock_data(symbol: str):
+async def get_ml_stock_data(company_symbol: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{STOCK_FETCHER_SERVICE_URL}/stock-fetcher-service/ml-stock-data/", params={"symbol": symbol})
+        response = await client.get(f"{STOCK_FETCHER_SERVICE_URL}/stock-fetcher-service/ml-stock-data/", params={"symbol": company_symbol})
         if response.status_code == 200:
             return response.json()
         raise HTTPException(status_code=response.status_code, detail=response.text)
@@ -52,7 +52,7 @@ ML_PREDICTION_SERVICE_URL = "http://ml-prediction-service:8000"
 @app.get("/ml-prediction-service/train_model/")
 async def train_model(company_symbol: str, start_date: Optional[str] = Query(None), end_date: Optional[str] = Query(None)):
     async with httpx.AsyncClient(timeout=210) as client:
-        response = await client.get(f"{ML_PREDICTION_SERVICE_URL}/ml-prediction-service/train_model/?company_symbol={company_symbol}&start_date={start_date}")
+        response = await client.get(f"{ML_PREDICTION_SERVICE_URL}/ml-prediction-service/train_model/?company_symbol={company_symbol}&start_date={start_date}&end_date={end_date}")
         
         if response.status_code == 200:
             response_json = response.json()
@@ -64,6 +64,22 @@ async def train_model(company_symbol: str, start_date: Optional[str] = Query(Non
 
             print(f"JSON saved to {file_path}")
             return response_json
+        raise HTTPException(status_code=response.status_code, detail=response.text)
+    
+@app.get("/news-fetcher-service/news/today/")
+async def get_news_today(company: str):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"http://news-fetcher-service:5000/api/news/{company}/today")
+        if response.status_code == 200:
+            return response.json()
+        raise HTTPException(status_code=response.status_code, detail=response.text)
+    
+@app.get("/news-fetcher-service/news/by_date/")
+async def get_news_today(company: str, start_date: str, end_date: str):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"http://news-fetcher-service:5000/api/news/{company}?start={start_date}&end={end_date}")
+        if response.status_code == 200:
+            return response.json()
         raise HTTPException(status_code=response.status_code, detail=response.text)
 
     

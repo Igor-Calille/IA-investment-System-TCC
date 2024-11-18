@@ -11,6 +11,15 @@ services:
     depends_on:
       - stock-db
 
+  news-fetcher-service:
+    build:
+      context: ./news-fetcher-service
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=webapp.py
+    
+
   ml-prediction-service:
     build:
       context: ./ml-prediction-service

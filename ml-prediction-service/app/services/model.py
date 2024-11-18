@@ -1,10 +1,10 @@
 import json
 import pandas as pd
-import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
 
 from app.services.IndicadoresMercado import Indicadores
+from app.services.backtest import Backtest
 
 class Model:
     def __init__(self) -> None:
@@ -56,15 +56,22 @@ class Model:
 
         # Predições e sinal de compra/venda
         data_pd['predicted_close'] = best_model.predict(X)
-        data_pd['signal_ml'] = np.where(data_pd['predicted_close'] > data_pd['close'], 1, -1)
+        data_pd['signal_ml'] = (data_pd['predicted_close'] - data_pd['close']).apply(lambda x: 1 if x > 0 else -1)
 
         # Converte o DataFrame para uma lista de dicionários JSON-friendly
         result = data_pd.to_dict(orient='records')
         
-        # Converte tipos numpy para tipos nativos
-        for row in result:
-            for key, value in row.items():
-                if isinstance(value, (np.int64, np.float64)):
-                    row[key] = value.item()
+        
 
-        return result
+        backtest = Backtest()
+        df_copy = data_pd.copy()
+        accuracy, total_signals, correct_signals = backtest.check_signal_accuracy(df_copy)
+
+        response = {
+            "precision": float(accuracy),  
+            "total_signals": int(total_signals),  
+            "correct_signals": int(correct_signals),  
+            "data": result  
+        }
+
+        return response

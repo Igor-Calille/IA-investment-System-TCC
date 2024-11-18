@@ -1,0 +1,13 @@
+Primeiro:
+Popular o banco de dados (sempre verificar se a empresa esta no banco de dados)
+
+curl.exe -X POST 'http://localhost:8000/stock-fetcher-service/add_company/?company_symbol=AAPL'
+
+
+curl.exe -X GET 'http://localhost:8000/stock-fetcher-service/stock-data/?company_symbol=AAPL&start_date="2023-01-01"&end_date="2024-01-01"'
+
+curl.exe -X GET 'http://localhost:8000/ml-prediction-service/train_model/?company_symbol=AAPL&start_date="2023-01-01"&end_date="2024-01-01"
+
+curl.exe -X GET 'http://localhost:8000/news-fetcher-service/news/today/?company=APPLE'
+
+curl.exe -X GET 'http://localhost:8000/news-fetcher-service/news/by_date/?company=APPLE&start_date="01/01/2024"&end_date="02/01/2024"'
