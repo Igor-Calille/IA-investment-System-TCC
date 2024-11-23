@@ -1,0 +1,6 @@
+fastapi
+httpx
+uvicorn
+torch
+transformers
+pandas
