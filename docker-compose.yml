@@ -1,6 +1,13 @@
-version: '3.8'
-
 services:
+  stock-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dbname
+    ports:
+      - "5432:5432"
+      
   stock-fetcher-service:
     build:
       context: ./stock-fetcher-service
@@ -10,6 +17,19 @@ services:
       - SQLALCHEMY_DATABASE_URL=postgresql://user:password@stock-db/dbname
     depends_on:
       - stock-db
+
+  front-end:
+    build:
+      context: ./front-end
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front-end:/app
+      - /app/node_modules
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
 
   news-fetcher-service:
     build:
@@ -34,14 +54,6 @@ services:
     depends_on:
       - stock-fetcher-service
 
-  stock-db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
-    ports:
-      - "5432:5432"
 
   watchtower:
     image: containrrr/watchtower

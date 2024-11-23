@@ -2,3 +2,4 @@ GoogleNews
 flask
 datetime
 timedelta
+flask_cors
