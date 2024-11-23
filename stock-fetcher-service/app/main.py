@@ -9,16 +9,17 @@ app = FastAPI()
 
 from fastapi.middleware.cors import CORSMiddleware
 origins = [
-    "http://localhost:8080",
-    "http://localhost:3000"
+    "http://localhost:3000",  # Origem do frontend
+    "http://127.0.0.1:3000",   # Alternativa para localhost
+    "*"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=origins,  # Permitir estas origens
+    allow_credentials=True,  # Permitir cookies e autenticação
+    allow_methods=["*"],  # Permitir todos os métodos HTTP
+    allow_headers=["*"],  # Permitir todos os headers
 )
 
 
@@ -41,7 +42,10 @@ def add_company(company_symbol: str = Query(...), db: Session = Depends(database
         db_company = add_company_service(db, company_symbol)
         return db_company
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        if str(e) == "Company already exists":
+            raise HTTPException(status_code=200, detail="Company already exists")
+        else:
+            raise HTTPException(status_code=400, detail=str(e))
 
 # Função para obter dados de ações para gráficos dinâmicos
 @app.get("/stock-fetcher-service/stock-data/", response_model=List[schemas.StockData])
