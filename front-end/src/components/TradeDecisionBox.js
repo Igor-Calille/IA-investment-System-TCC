@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { requisicoes_enviadas, requisicoes_finalizadas } from '../components/StockContext';
 
 const TradeDecisionBox = ({ stock }) => {
     const [decision, setDecision] = useState("Carregando...");
@@ -10,6 +11,34 @@ const TradeDecisionBox = ({ stock }) => {
   useEffect(() => {
     const fetchTradeDecision = async () => {
       try {
+        const url2 = `http://localhost:8000/stock-fetcher-service/add_company/?company_symbol=${stock}`;
+        if (!(requisicoes_enviadas.includes(stock) || requisicoes_finalizadas.includes(stock))) {
+          try {
+            requisicoes_enviadas.push(stock);
+            
+            const response = await fetch(url2, {
+              method: 'POST', // Define o método como POST
+              headers: {
+                'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
+              },
+              body: JSON.stringify({}), // Corpo da requisição (adicione dados aqui se necessário)
+            });
+            if (!response.ok) {
+              throw new Error('Erro na requisição');
+            }
+            const result = await response.json();
+
+            requisicoes_finalizadas.push(stock);
+
+          } catch (error) {
+            console.error('Erro ao buscar os dados:', error);
+          }
+        }
+
+        while (!requisicoes_finalizadas.includes(stock)) {
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+
         const response = await fetch(
           `http://localhost:8000/ml-prediction-service/train_model/?company_symbol=${stock}&start_date="2024-06-02"&end_date="2024-12-31"`
         );

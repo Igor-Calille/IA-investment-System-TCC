@@ -7,6 +7,21 @@ from app.services import add_company as add_company_service, update_daily_stock_
 
 app = FastAPI()
 
+from fastapi.middleware.cors import CORSMiddleware
+origins = [
+    "http://localhost:8080",
+    "http://localhost:3000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 # Drop existing tables
 #models.Base.metadata.drop_all(bind=database.engine)

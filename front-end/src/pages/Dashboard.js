@@ -4,6 +4,7 @@ import StockChart from '../components/StockChart';
 import StockForecastChart from '../components/StockForecastChart';
 import NewsItem from '../components/NewsItem';
 import TradeDecisionBox from '../components/TradeDecisionBox'; // Importar o componente
+import { requisicoes_enviadas, requisicoes_finalizadas } from '../components/StockContext';
 
 const Dashboard = () => {
   const { selectedStocks, fetchStockData, stockData } = useContext(StockContext);

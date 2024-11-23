@@ -347,3 +347,14 @@ input:checked + .slider:before {
   margin: 4px 0;
   font-size: 14px;
 }
+
+.loading-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 350px; /* Altura do container do gráfico */
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  color: #555;
+}
