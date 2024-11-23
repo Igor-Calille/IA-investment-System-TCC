@@ -38,7 +38,12 @@ services:
       - "5000:5000"
     environment:
       - FLASK_APP=webapp.py
-    
+  
+  sentiment-analysis-service:
+    build:
+      context: ./sentiment-analysis-service
+    ports:
+      - "8003:8000"
 
   ml-prediction-service:
     build:
