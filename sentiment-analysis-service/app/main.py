@@ -20,11 +20,15 @@ async def get_sentiment(company_name: str, start_date: str = None, end_date: str
                 news_data = response.json()
 
                 nlpmodel = NLPModel()
-                sentiment = nlpmodel.market_trend(news_data[0])
+                data_frame_sentiment = nlpmodel.market_trend(news_data[0])
 
-
-
-                return {"company_name": company_name}
+                return data_frame_sentiment
             raise HTTPException(status_code=response.status_code, detail=response.text)
     except httpx.ReadTimeout:
         raise HTTPException(status_code=504, detail="Request timed out. Consider increasing the timeout value.")
+    
+@app.get("/sentiment-analysis-service/get_sentiment_text/")
+async def get_sentiment_text(text: str):
+    nlpmodel = NLPModel()
+    sentiment = nlpmodel.get_text_sentiment(text)
+    return sentiment

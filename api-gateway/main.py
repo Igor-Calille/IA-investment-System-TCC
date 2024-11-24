@@ -103,5 +103,14 @@ async def get_sentiment(company_name: str, start_date: str = None, end_date: str
         if response.status_code == 200:
             return response.json()
         raise HTTPException(status_code=response.status_code, detail=response.text)
+    
+@app.get("/sentiment-analysis-service/get_sentiment_text/")
+async def get_sentiment(text: str):
+    
+    async with httpx.AsyncClient(timeout=200) as client:
+        response = await client.get(f"http://sentiment-analysis-service:8000/sentiment-analysis-service/get_sentiment_text/?text={text}")
+        if response.status_code == 200:
+            return response.json()
+        raise HTTPException(status_code=response.status_code, detail=response.text)
 
     

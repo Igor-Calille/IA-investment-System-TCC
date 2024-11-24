@@ -44,6 +44,8 @@ services:
       context: ./sentiment-analysis-service
     ports:
       - "8003:8000"
+    volumes:
+      - ./sentiment-analysis-service/results_model_english:/app/results_model_english
 
   ml-prediction-service:
     build:
