@@ -95,6 +95,7 @@ async def get_news_today(company: str, start_date: str, end_date: str):
             return response.json()
         raise HTTPException(status_code=response.status_code, detail=response.text)
     
+# Obter a media do sentimento entre as noticias de cada dia de um intervalo de datas
 @app.get("/sentiment-analysis-service/get_sentiment/")
 async def get_sentiment(company_name: str, start_date: str = None, end_date: str = None):
     
@@ -104,6 +105,7 @@ async def get_sentiment(company_name: str, start_date: str = None, end_date: str
             return response.json()
         raise HTTPException(status_code=response.status_code, detail=response.text)
     
+# Obter o sentimento de um texto
 @app.get("/sentiment-analysis-service/get_sentiment_text/")
 async def get_sentiment(text: str):
     

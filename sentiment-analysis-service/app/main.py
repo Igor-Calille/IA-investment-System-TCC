@@ -19,8 +19,10 @@ async def get_sentiment(company_name: str, start_date: str = None, end_date: str
             if response.status_code == 200:
                 news_data = response.json()
 
+                flattened_news_data = [item for sublist in news_data for item in sublist]
+
                 nlpmodel = NLPModel()
-                data_frame_sentiment = nlpmodel.market_trend(news_data[0])
+                data_frame_sentiment = nlpmodel.market_trend(flattened_news_data)
 
                 return data_frame_sentiment
             raise HTTPException(status_code=response.status_code, detail=response.text)
