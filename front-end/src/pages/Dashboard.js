@@ -6,6 +6,61 @@ import NewsItem from '../components/NewsItem';
 import TradeDecisionBox from '../components/TradeDecisionBox'; // Importar o componente
 import { requisicoes_enviadas, requisicoes_finalizadas } from '../components/StockContext';
 
+var depara_acoes = {
+  "AAPL": "Apple",
+  "GOOGL": "Alphabet",
+  "AMZN": "Amazon",
+  "MSFT": "Microsoft",
+  "TSLA": "Tesla",
+  "NFLX": "Netflix",
+  "NVDA": "NVIDIA",
+  "FB": "Meta",
+  "BABA": "Alibaba",
+  "V": "Visa",
+  "JNJ": "Johnson & Johnson",
+  "WMT": "Walmart",
+  "PG": "Procter & Gamble",
+  "DIS": "Disney",
+  "MA": "Mastercard",
+  "PYPL": "PayPal",
+  "ADBE": "Adobe",
+  "INTC": "Intel",
+  "CSCO": "Cisco",
+  "ORCL": "Oracle",
+  "PEP": "PepsiCo",
+  "KO": "Coca-Cola",
+  "CRM": "Salesforce",
+  "NKE": "Nike",
+  "MRK": "Merck",
+  "MCD": "McDonald's",
+  "COST": "Costco",
+  "XOM": "ExxonMobil",
+  "HON": "Honeywell",
+  "TXN": "Texas Instruments",
+  "IBM": "IBM",
+  "AVGO": "Broadcom",
+  "QCOM": "Qualcomm",
+  "LLY": "Eli Lilly",
+  "T": "AT&T",
+  "CVX": "Chevron",
+  "UNH": "UnitedHealth",
+  "AMGN": "Amgen",
+  "MDT": "Medtronic",
+  "BA": "Boeing",
+  "NEE": "NextEra Energy",
+  "CAT": "Caterpillar",
+  "DHR": "Danaher",
+  "SPGI": "S&P Global",
+  "NOW": "ServiceNow",
+  "LIN": "Linde",
+  "PLD": "Prologis",
+  "BLK": "BlackRock",
+  "AXP": "American Express",
+  "LOW": "Lowe's",
+  "UPS": "UPS"
+}
+
+
 const Dashboard = () => {
   const { selectedStocks, fetchStockData, stockData } = useContext(StockContext);
   const [newsData, setNewsData] = useState({});
@@ -27,7 +82,7 @@ const Dashboard = () => {
           [stock]: cachedData.news,
         }));
       } else {
-        fetch(`http://localhost:8000/news-fetcher-service/news/today/?company=${stock}`)
+        fetch(`http://localhost:8000/news-fetcher-service/news/today/?company=${depara_acoes[stock]}`)
           .then((response) => response.json())
           .then((news) => {
             console.log('Notícias:', news);

@@ -10,12 +10,8 @@ export const StockProvider = ({ children }) => {
   const [stockData, setStockData] = useState({});
 
   const toggleStock = async (stockName) => {
-    setSelectedStocks((prevSelectedStocks) =>
-      prevSelectedStocks.includes(stockName)
-        ? prevSelectedStocks.filter((name) => name !== stockName)
-        : [...prevSelectedStocks, stockName]
-    );
-  };  
+    setSelectedStocks([stockName]);
+  };   
 
   const fetchStockData = async (stockName) => {
 

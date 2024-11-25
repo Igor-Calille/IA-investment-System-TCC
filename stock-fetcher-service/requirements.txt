@@ -8,3 +8,5 @@ alembic
 apscheduler
 httpx
 fastapi-cors
+datetime
+typing

@@ -11,29 +11,29 @@ const TradeDecisionBox = ({ stock }) => {
   useEffect(() => {
     const fetchTradeDecision = async () => {
       try {
-        const url2 = `http://localhost:8000/stock-fetcher-service/add_company/?company_symbol=${stock}`;
-        if (!(requisicoes_enviadas.includes(stock) || requisicoes_finalizadas.includes(stock))) {
-          try {
-            requisicoes_enviadas.push(stock);
+        // const url2 = `http://localhost:8000/stock-fetcher-service/add_company/?company_symbol=${stock}`;
+        // if (!(requisicoes_enviadas.includes(stock) || requisicoes_finalizadas.includes(stock))) {
+        //   try {
+        //     requisicoes_enviadas.push(stock);
             
-            const response = await fetch(url2, {
-              method: 'POST', // Define o método como POST
-              headers: {
-                'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
-              },
-              body: JSON.stringify({}), // Corpo da requisição (adicione dados aqui se necessário)
-            });
-            if (!response.ok) {
-              throw new Error('Erro na requisição');
-            }
-            const result = await response.json();
+        //     const response = await fetch(url2, {
+        //       method: 'POST', // Define o método como POST
+        //       headers: {
+        //         'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
+        //       },
+        //       body: JSON.stringify({}), // Corpo da requisição (adicione dados aqui se necessário)
+        //     });
+        //     if (!response.ok) {
+        //       throw new Error('Erro na requisição');
+        //     }
+        //     const result = await response.json();
 
-            requisicoes_finalizadas.push(stock);
+        //     requisicoes_finalizadas.push(stock);
 
-          } catch (error) {
-            console.error('Erro ao buscar os dados:', error);
-          }
-        }
+        //   } catch (error) {
+        //     console.error('Erro ao buscar os dados:', error);
+        //   }
+        // }
 
         while (!requisicoes_finalizadas.includes(stock)) {
           await new Promise((resolve) => setTimeout(resolve, 1000));

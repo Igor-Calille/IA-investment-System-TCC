@@ -12,27 +12,27 @@ const StockForecastChart = ({ stock }) => {
 
     const fetchData = async () => {
       try {
-        const url2 = `http://localhost:8000/stock-fetcher-service/add_company/?company_symbol=${stock}`;
-        if (!(requisicoes_enviadas.includes(stock) || requisicoes_finalizadas.includes(stock))) {
-          try {
-            requisicoes_enviadas.push(stock);
+        // const url2 = `http://localhost:8000/stock-fetcher-service/add_company/?company_symbol=${stock}`;
+        // if (!(requisicoes_enviadas.includes(stock) || requisicoes_finalizadas.includes(stock))) {
+        //   try {
+        //     requisicoes_enviadas.push(stock);
 
-            const response = await fetch(url2, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({}),
-            });
-            if (!response.ok) {
-              throw new Error('Erro na requisição');
-            }
-            await response.json();
-            requisicoes_finalizadas.push(stock);
-          } catch (error) {
-            console.error('Erro ao buscar os dados:', error);
-          }
-        }
+        //     const response = await fetch(url2, {
+        //       method: 'POST',
+        //       headers: {
+        //         'Content-Type': 'application/json',
+        //       },
+        //       body: JSON.stringify({}),
+        //     });
+        //     if (!response.ok) {
+        //       throw new Error('Erro na requisição');
+        //     }
+        //     await response.json();
+        //     requisicoes_finalizadas.push(stock);
+        //   } catch (error) {
+        //     console.error('Erro ao buscar os dados:', error);
+        //   }
+        // }
 
         while (!requisicoes_finalizadas.includes(stock)) {
           await new Promise((resolve) => setTimeout(resolve, 1000));
