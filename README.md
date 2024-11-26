@@ -17,12 +17,10 @@ O objetivo principal do projeto é auxiliar os investidores com uma ferramenta q
 ## Estrutura de Microserviços
 
 1. **API Gateway**
-2. **User Service**
-3. **Portfolio Service**
-4. **News Fetcher Service**
-5. **Sentiment Analysis Service**
-6. **ML Prediction Service**
-7. **Stock Fetcher Service**
+2. **News Fetcher Service**
+3. **Sentiment Analysis Service**
+4. **ML Prediction Service**
+5. **Stock Fetcher Service**
 
 ## API Gateway
 
